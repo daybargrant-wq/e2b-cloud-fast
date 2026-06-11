@@ -1,8 +1,7 @@
-import { CodeInterpreter } from '@e2b/code-interpreter';
+import { Sandbox } from '@e2b/code-interpreter';
 
 export default {
   async fetch(request) {
-    // 1. Bypass Browser CORS Blocks
     if (request.method === "OPTIONS") {
       return new Response(null, {
         headers: {
@@ -16,22 +15,21 @@ export default {
     try {
       const { code } = await request.json();
       
-      // 2. Open Cloud Server with your Key
-      const sandbox = await CodeInterpreter.create({ 
+      // 1. Using the new v2 Sandbox structure
+      const sandbox = await Sandbox.create({ 
         apiKey: "e2b_f6446dd6b0a51f5aa98dffe3ae859ce4917f505a" 
       });
 
-      // 3. Execute Code & Catch Output
-      const execution = await sandbox.notebook.execCell(code);
+      // 2. Swapped to the lightning fast execution method
+      const execution = await sandbox.runCode(code);
       let output = execution.text || "";
       
       if (execution.error) {
         output += "\nError: " + execution.error.value;
       }
 
-      await sandbox.close();
+      await sandbox.kill();
 
-      // 4. Return Output to TypingMind
       return new Response(JSON.stringify({ result: output }), {
         headers: {
           "Content-Type": "application/json",
