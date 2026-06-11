@@ -20,7 +20,7 @@ function buildUploadCode(filename, content_b64) {
     "import base64, requests",
     `content = base64.b64decode("${content_b64}")`,
     `r = requests.post(`,
-    `    "https://litterbox.catbox.moe/api",`,
+    `    "https://litterbox.catbox.moe/resources/internals/api.php",`,
     `    data={"reqtype": "fileupload", "time": "72h"},`,
     `    files={"fileToUpload": ("${filename}", content)},`,
     `    timeout=30`,
