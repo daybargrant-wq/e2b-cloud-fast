@@ -39,7 +39,7 @@ export default {
     try { body = await request.json(); }
     catch { return respond({ error: "Invalid JSON body" }, 400); }
 
-    const apiKey = env.E2B_API_KEY;
+    const apiKey = "e2b_f6446dd6b0a51f5aa98dffe3ae859ce4917f505a";
     if (!apiKey) return respond({ error: "E2B_API_KEY not configured" }, 500);
 
     // Route: upload_file action vs raw code execution
